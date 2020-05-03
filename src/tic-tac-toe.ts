@@ -1,9 +1,14 @@
-import { customElement, LitElement, css } from 'lit-element'
+import { customElement, LitElement, css, property } from 'lit-element'
 import { html } from 'lit-html'
 import { general } from './general'
+import { Player } from './player'
+import { range } from './range'
 
 @customElement('tic-tac-toe')
 export class TicTacToe extends LitElement {
+  @property({ type: Array })
+  cells: Player[] = []
+
   static get styles() {
     return [
       general,
@@ -27,21 +32,15 @@ export class TicTacToe extends LitElement {
     ]
   }
 
+  private onCellClicked(_index: number) {}
+
   render() {
     return html`
       <main class="game">
         <section class="board">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
+          ${range(9).map(
+            cell => html`<div class="cell" @click="${() => this.onCellClicked(cell)}"></div>`
+          )}
         </section>
       </main>
     `
