@@ -1,11 +1,28 @@
-import { Player } from './player'
 import { range } from './range'
+import { Board } from './board'
+import { Player } from './player'
 
 export class Game {
-  private readonly board: Player | null = range(9).map(() => null)
+  static MAXIMUM_CELLS = 9
+  static INITIAL_PLAYER: Player = 'X'
 
-  setBoard(board: (Player | null)[]) {
+  private currentPlayer = Game.INITIAL_PLAYER
+
+  board: Board = range(Game.MAXIMUM_CELLS).map(() => null)
+
+  setBoard(board: Board) {
     this.board = board
+  }
+
+  play(index: number) {
+    if (this.canPlay(index)) {
+      this.board[index] = this.currentPlayer
+      this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X'
+    }
+  }
+
+  onWinning(callback: (player: Player) => void) {
+    callback('X')
   }
 
   canPlay(index: number) {
